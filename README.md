@@ -1,2 +1,5 @@
-# code-sage
-axentx product · A high-performance code intelligence platform providing advanced code analysis and recommendations for tech professionals.
+# Code Sage
+Code Sage is a tool for analyzing code and detecting issues.
+
+## Installation
+To install Code Sage, run the following command:
