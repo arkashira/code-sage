@@ -1,5 +1,8 @@
 # Code Sage
-Code Sage is a tool for analyzing code and detecting issues.
+Code Sage is a project that provides a CLI for sending metrics and configuring telemetry.
 
-## Installation
-To install Code Sage, run the following command:
+## Usage
+To use Code Sage, simply run the CLI with the `config` or `send-metrics` command.
+
+## Configuration
+To configure Code Sage, create a `config.json` file with the following format:
