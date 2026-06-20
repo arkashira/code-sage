@@ -1,8 +1,12 @@
 # Code Sage
-Code Sage is a project that provides a CLI for sending metrics and configuring telemetry.
+
+A multi-language analysis engine with configurable maximum analysis time per job.
 
 ## Usage
-To use Code Sage, simply run the CLI with the `config` or `send-metrics` command.
 
-## Configuration
-To configure Code Sage, create a `config.json` file with the following format:
+1. Create a config file with `max_analysis_ms` field.
+2. Run the analysis engine with the config file.
+
+## Testing
+
+Run `pytest` to execute the tests.
