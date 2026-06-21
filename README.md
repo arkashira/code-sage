@@ -1,5 +1,5 @@
 # Code Sage
-A tool for detecting errors and providing refactoring suggestions.
+A tool for generating reports on code health.
 
-## Installation
-To install Code Sage, run the following command:
+## Usage
+To generate a report, run `codesage --format html` or `codesage --format json`.
