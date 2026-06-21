@@ -1,7 +1,10 @@
 # Code Sage
-A tool for instant code insights.
+A lightweight, personalized code review tool that analyzes Python code and provides suggestions based on a developer's style profile, project context, and custom rules.
 
-## Usage
-1. Run `python -m pytest` to test the code.
-2. Use the `analyze_code` function to analyze your code and get performance bottlenecks.
-3. Use the `display_results` function to display the analysis results.
+## Features
+- **Line length checks** with configurable maximum length.
+- **Trailing whitespace detection**.
+- **Project context awareness** (e.g., suggest adding a module docstring mentioning the project name).
+- **Custom rule support** – plug in your own functions to extend analysis.
+
+## Installation
