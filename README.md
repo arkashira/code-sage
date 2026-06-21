@@ -1,7 +1,5 @@
 # Code Sage
-
-A security-concerned engineer's best friend.
+A tool for detecting errors and providing refactoring suggestions.
 
 ## Installation
-
 To install Code Sage, run the following command:
