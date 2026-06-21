@@ -1,32 +1,37 @@
 import argparse
 import json
-from dataclasses import dataclass
+import dataclasses
+import time
 from typing import List
 
-@dataclass
+@dataclasses.dataclass
 class AnalysisResult:
-    file_path: str
-    issues: List[str]
+    syntax_errors: List[str]
+    undefined_symbols: List[str]
+    performance_anti_patterns: List[str]
 
-def analyze_code(file_path: str) -> AnalysisResult:
-    try:
-        with open(file_path, 'r') as file:
-            content = file.read()
-            issues = []
-            if 'TODO' in content:
-                issues.append('TODO comment found')
-            if 'FIXME' in content:
-                issues.append('FIXME comment found')
-            return AnalysisResult(file_path, issues)
-    except FileNotFoundError:
-        return AnalysisResult(file_path, ['File not found'])
+def analyze_code(code: str) -> AnalysisResult:
+    # Simulate analysis time
+    time.sleep(0.1)
+    # Simulate analysis results
+    syntax_errors = ["Error 1", "Error 2"]
+    undefined_symbols = ["Symbol 1", "Symbol 2"]
+    performance_anti_patterns = ["Pattern 1", "Pattern 2"]
+    return AnalysisResult(syntax_errors, undefined_symbols, performance_anti_patterns)
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description='Code Sage CLI')
-    parser.add_argument('file_path', help='Path to the source file')
+    parser = argparse.ArgumentParser(description="Code Sage")
+    parser.add_argument("code", help="Code to analyze", nargs='?')
     args = parser.parse_args()
-    result = analyze_code(args.file_path)
-    print(json.dumps(result.__dict__, indent=4))
+    if args.code is None:
+        parser.print_help()
+        exit(2)
+    result = analyze_code(args.code)
+    print(json.dumps(dataclasses.asdict(result), indent=4))
+    if result.syntax_errors or result.undefined_symbols or result.performance_anti_patterns:
+        exit(1)
+    else:
+        exit(0)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

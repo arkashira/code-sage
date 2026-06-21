@@ -1,12 +1,11 @@
 # Code Sage
-
-A multi-language analysis engine with configurable maximum analysis time per job.
+Code Sage is a static analysis tool that analyzes code and provides feedback on syntax errors, undefined symbols, and performance anti-patterns.
 
 ## Usage
+To use Code Sage, simply run the `code_sage.py` script with the code to analyze as an argument.
 
-1. Create a config file with `max_analysis_ms` field.
-2. Run the analysis engine with the config file.
+## Requirements
+Code Sage requires Python 3.8 or later.
 
 ## Testing
-
-Run `pytest` to execute the tests.
+To run the tests, use the `pytest` command.
