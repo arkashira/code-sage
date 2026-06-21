@@ -1,29 +1,22 @@
-import json
+import time
 from dataclasses import dataclass
 from typing import List
 
 @dataclass
-class AnalysisResult:
-    overhead: float
-    accuracy: float
-    relevance: float
+class CodeAnalysisResult:
+    """Dataclass to hold code analysis results"""
+    performance_bottlenecks: List[str]
 
-def analyze_codebase(codebase: str) -> AnalysisResult:
-    # Simulate analysis overhead calculation
-    overhead = len(codebase) / 1000 if codebase else 0
-    # Simulate accuracy and relevance calculation
-    accuracy = 0.9 if codebase else 0
-    relevance = 0.8 if codebase else 0
-    return AnalysisResult(overhead, accuracy, relevance)
+def analyze_code(code: str) -> CodeAnalysisResult:
+    """Analyze the given code and return performance bottlenecks"""
+    # Simulate code analysis time
+    time.sleep(0.1)
+    # For demonstration purposes, assume we found some bottlenecks
+    performance_bottlenecks = ["bottleneck1", "bottleneck2"]
+    return CodeAnalysisResult(performance_bottlenecks)
 
-def display_results(results: AnalysisResult) -> str:
-    return json.dumps({
-        "overhead": results.overhead,
-        "accuracy": results.accuracy,
-        "relevance": results.relevance
-    })
-
-def main() -> None:
-    codebase = "example codebase"
-    results = analyze_codebase(codebase)
-    print(display_results(results))
+def display_results(results: CodeAnalysisResult) -> None:
+    """Display the code analysis results"""
+    print("Performance Bottlenecks:")
+    for bottleneck in results.performance_bottlenecks:
+        print(f"- {bottleneck}")

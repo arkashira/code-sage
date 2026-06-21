@@ -1,8 +1,7 @@
 # Code Sage
-Low-overhead code analysis tool.
+A tool for instant code insights.
 
 ## Usage
-Run the analysis using the `main` function in `src/code_sage.py`.
-
-## Testing
-Run the tests using `pytest` in the `tests` directory.
+1. Run `python -m pytest` to test the code.
+2. Use the `analyze_code` function to analyze your code and get performance bottlenecks.
+3. Use the `display_results` function to display the analysis results.
