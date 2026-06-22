@@ -1,5 +1,5 @@
 # Code Sage
-A tool for generating reports on code health.
+A user-friendly interface and experience for developers.
 
 ## Usage
-To generate a report, run `codesage --format html` or `codesage --format json`.
+Run the tool with the following command:

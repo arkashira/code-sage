@@ -1,63 +1,59 @@
 import json
 from dataclasses import dataclass
-from enum import Enum
-from typing import List
-
-class ErrorType(Enum):
-    SYNTAX_ERROR = 1
-    TYPE_ERROR = 2
-    LOGIC_ERROR = 3
+from argparse import ArgumentParser
 
 @dataclass
-class Error:
-    type: ErrorType
-    message: str
-    line: int
-    column: int
-
-@dataclass
-class RefactoringSuggestion:
-    message: str
-    line: int
-    column: int
+class CodeSageConfig:
+    theme: str
+    font_size: int
 
 class CodeSage:
-    def __init__(self, code: str, language: str):
-        self.code = code
-        self.language = language
+    def __init__(self, config: CodeSageConfig):
+        self.config = config
 
-    def detect_errors(self) -> List[Error]:
-        errors = []
-        # Simple syntax error detection
-        if self.language == "python" and "print(" in self.code and not self.code.endswith(")"):
-            errors.append(Error(ErrorType.SYNTAX_ERROR, "Missing closing parenthesis", 1, 1))
-        return errors
+    def get_config(self):
+        return self.config
 
-    def provide_refactoring_suggestions(self) -> List[RefactoringSuggestion]:
-        suggestions = []
-        # Simple refactoring suggestion
-        if self.language == "python" and "x = 5" in self.code:
-            suggestions.append(RefactoringSuggestion("Consider using a constant for the value 5", 1, 1))
-        return suggestions
+    def set_config(self, config: CodeSageConfig):
+        self.config = config
 
-    def highlight_errors_and_suggestions(self, errors: List[Error], suggestions: List[RefactoringSuggestion]) -> str:
-        highlighted_code = self.code.split("\n")
-        for error in errors:
-            if error.line - 1 < len(highlighted_code):
-                highlighted_code[error.line - 1] = f"{highlighted_code[error.line - 1]} # {error.message}"
-        for suggestion in suggestions:
-            if suggestion.line - 1 < len(highlighted_code):
-                highlighted_code[suggestion.line - 1] = f"{highlighted_code[suggestion.line - 1]} # {suggestion.message}"
-        return "\n".join(highlighted_code)
+    def save_config(self, filename: str):
+        with open(filename, 'w') as f:
+            json.dump({
+                'theme': self.config.theme,
+                'font_size': self.config.font_size
+            }, f)
+
+    def load_config(self, filename: str):
+        try:
+            with open(filename, 'r') as f:
+                config_data = json.load(f)
+            self.config = CodeSageConfig(
+                theme=config_data['theme'],
+                font_size=config_data['font_size']
+            )
+        except FileNotFoundError:
+            raise ValueError("Config file not found")
 
     def main(self):
-        code = "print(x = 5"
-        language = "python"
-        errors = self.detect_errors()
-        suggestions = self.provide_refactoring_suggestions()
-        highlighted_code = self.highlight_errors_and_suggestions(errors, suggestions)
-        print(highlighted_code)
+        parser = ArgumentParser(description='Code Sage')
+        parser.add_argument('--theme', help='Theme to use')
+        parser.add_argument('--font-size', type=int, help='Font size to use')
+        parser.add_argument('--save-config', help='Save config to file')
+        parser.add_argument('--load-config', help='Load config from file')
+        args = parser.parse_args()
+        config = CodeSageConfig(theme='default', font_size=12)
+        if args.theme:
+            config.theme = args.theme
+        if args.font_size:
+            config.font_size = args.font_size
+        code_sage = CodeSage(config)
+        if args.save_config:
+            code_sage.save_config(args.save_config)
+        elif args.load_config:
+            code_sage.load_config(args.load_config)
+        print(code_sage.get_config())
 
-if __name__ == "__main__":
-    code_sage = CodeSage("print('Hello World')", "python")
+if __name__ == '__main__':
+    code_sage = CodeSage(CodeSageConfig(theme='default', font_size=12))
     code_sage.main()

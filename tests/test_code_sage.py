@@ -1,42 +1,47 @@
-from code_sage import CodeSage, Error, ErrorType, RefactoringSuggestion
+import json
+from code_sage import CodeSage, CodeSageConfig
 
-def test_detect_errors():
-    code = "print("
-    language = "python"
-    code_sage = CodeSage(code, language)
-    errors = code_sage.detect_errors()
-    assert len(errors) == 1
-    assert errors[0].type == ErrorType.SYNTAX_ERROR
-    assert errors[0].message == "Missing closing parenthesis"
-    assert errors[0].line == 1
-    assert errors[0].column == 1
+def test_code_sage_config():
+    config = CodeSageConfig(theme='dark', font_size=14)
+    assert config.theme == 'dark'
+    assert config.font_size == 14
 
-def test_provide_refactoring_suggestions():
-    code = "x = 5"
-    language = "python"
-    code_sage = CodeSage(code, language)
-    suggestions = code_sage.provide_refactoring_suggestions()
-    assert len(suggestions) == 1
-    assert suggestions[0].message == "Consider using a constant for the value 5"
-    assert suggestions[0].line == 1
-    assert suggestions[0].column == 1
+def test_code_sage_get_config():
+    config = CodeSageConfig(theme='light', font_size=12)
+    code_sage = CodeSage(config)
+    assert code_sage.get_config().theme == 'light'
+    assert code_sage.get_config().font_size == 12
 
-def test_highlight_errors_and_suggestions():
-    code = "print(x = 5"
-    language = "python"
-    code_sage = CodeSage(code, language)
-    errors = code_sage.detect_errors()
-    suggestions = code_sage.provide_refactoring_suggestions()
-    highlighted_code = code_sage.highlight_errors_and_suggestions(errors, suggestions)
-    assert highlighted_code == "print(x = 5 # Missing closing parenthesis # Consider using a constant for the value 5"
+def test_code_sage_set_config():
+    config = CodeSageConfig(theme='dark', font_size=14)
+    code_sage = CodeSage(config)
+    new_config = CodeSageConfig(theme='light', font_size=12)
+    code_sage.set_config(new_config)
+    assert code_sage.get_config().theme == 'light'
+    assert code_sage.get_config().font_size == 12
 
-def test_no_errors_or_suggestions():
-    code = "print('Hello World')"
-    language = "python"
-    code_sage = CodeSage(code, language)
-    errors = code_sage.detect_errors()
-    suggestions = code_sage.provide_refactoring_suggestions()
-    assert len(errors) == 0
-    assert len(suggestions) == 0
-    highlighted_code = code_sage.highlight_errors_and_suggestions(errors, suggestions)
-    assert highlighted_code == code
+def test_code_sage_save_config():
+    config = CodeSageConfig(theme='dark', font_size=14)
+    code_sage = CodeSage(config)
+    code_sage.save_config('config.json')
+    with open('config.json', 'r') as f:
+        config_data = json.load(f)
+    assert config_data['theme'] == 'dark'
+    assert config_data['font_size'] == 14
+
+def test_code_sage_load_config():
+    config = CodeSageConfig(theme='light', font_size=12)
+    code_sage = CodeSage(config)
+    code_sage.save_config('config.json')
+    code_sage.load_config('config.json')
+    assert code_sage.get_config().theme == 'light'
+    assert code_sage.get_config().font_size == 12
+
+def test_code_sage_load_config_not_found():
+    config = CodeSageConfig(theme='dark', font_size=14)
+    code_sage = CodeSage(config)
+    try:
+        code_sage.load_config('non_existent_config.json')
+        assert False, "Expected ValueError"
+    except ValueError as e:
+        assert str(e) == "Config file not found"
